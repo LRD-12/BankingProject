@@ -22,8 +22,9 @@ public:
 	string getName() const;
 	string getPassword() const;
 	int getUserNum() const;
+	void saveToFile() const;
 	bool login();
-	void createAccount(string accountType);
+	void createAccount(BankAccount* account);
 
 	static void initializeNewUserNum();
 };

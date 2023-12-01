@@ -35,9 +35,13 @@
     <ClCompile Include="bank-account.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="transaction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="user-num.txt" />
     <Text Include="bank-account-num.txt" />
+    <Text Include="users.txt" />
   </ItemGroup>
 </Project>

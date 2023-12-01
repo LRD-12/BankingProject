@@ -134,11 +134,13 @@
   <ItemGroup>
     <ClCompile Include="app.cpp" />
     <ClCompile Include="bank-account.cpp" />
+    <ClCompile Include="transaction.cpp" />
     <ClCompile Include="user.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="bank-account-num.txt" />
     <Text Include="user-num.txt" />
+    <Text Include="users.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

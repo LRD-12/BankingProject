@@ -10,7 +10,7 @@ private:
 	double amount;
 public:
 	Transaction(string type, double amount);
-	//~Transaction();
+	~Transaction();
 	string getType() const;
 	double getAmount() const;
 };

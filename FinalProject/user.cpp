@@ -11,6 +11,7 @@ void User::initializeNewUserNum() {
 		int num;
 		inputFile >> num;
 		newUserNum = num;
+		inputFile.close();
 	}
 	else {
 		cout << "Unable to open file for reading." << endl;
@@ -22,13 +23,14 @@ void User::saveNewUserNum() {
 
 	if (outputFile.is_open()) {
 		outputFile << newUserNum;
+		outputFile.close();
 	}
 	else {
 		cout << "Unable to open file for writing." << endl;
 	}
 }
 
-User::User(string name, string password) {
+User::User(string name, string password):name(name), password(password) {
 	userNum = newUserNum;
 	newUserNum++;
 	saveNewUserNum();
@@ -50,8 +52,22 @@ int User::getUserNum() const {
 	return userNum;
 }
 
+void User::saveToFile() const {
+	// Open file in append mode
+	ofstream outputFile("users.txt", ios::app);
+
+	if (outputFile.is_open()) {
+		outputFile << userNum << " " << name << " " << password << endl;
+		outputFile.close();
+	}
+	else {
+		cout << "Unable to open file for writing." << endl;
+	}
+}
+
 bool User::login() { return true; }
 
-void User::createAccount(string accountType) {
-	accounts.emplace_back(accountType);
+void User::createAccount(BankAccount* account) {
+	accounts.push_back(*account);
+	account->saveToFile(userNum);
 }

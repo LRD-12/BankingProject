@@ -22,6 +22,7 @@ public:
 	void withdraw(double amount);
 	void deposit(double amount);
 	void printAccountSummary() const;
+	void saveToFile(int userNum) const;
 	static void initializeNewAccountNum();
 };
 

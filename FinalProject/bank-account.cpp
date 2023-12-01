@@ -60,3 +60,16 @@ void BankAccount::printAccountSummary() const {
 	cout << "Balance: " << balance << endl;
 	// PRINT ALL TRANSACTIONS
 }
+
+// Saves to 'bank-accounts.txt', userNum provided as argument since we can't access it directly from BankAccount object
+void BankAccount::saveToFile(int userNum) const {
+	ofstream outputFile("bank-accounts.txt", ios::app);
+
+	if (outputFile.is_open()) {
+		outputFile << userNum << " " << accountNum << " " << accountType << " " << balance << endl;
+		outputFile.close();
+	}
+	else {
+		cout << "Unable to open file for writing." << endl;
+	}
+}
