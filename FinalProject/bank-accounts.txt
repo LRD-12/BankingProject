@@ -1,1 +1,6 @@
-
+10000 10000 Savings 0
+10000 10001 Savings 0
+10000 10002 Savings 0
+10000 10003 Savings 0
+10000 10004 Savings 0
+10000 10005 Checking 0
