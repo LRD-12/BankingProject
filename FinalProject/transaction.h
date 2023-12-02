@@ -13,5 +13,6 @@ public:
 	~Transaction();
 	string getType() const;
 	double getAmount() const;
+	void saveToFile(int accountNum) const;
 };
 #endif

@@ -1,5 +1,6 @@
 #include<iostream>
 #include<fstream>
+#include<iomanip>
 #include "bank-account.h"
 
 int BankAccount::newAccountNum = 0;
@@ -28,12 +29,14 @@ void BankAccount::saveNewAccountNum() {
 	}
 }
 
+// Used to create a new bank account
 BankAccount::BankAccount(string accountType):accountType(accountType), balance(0) {
 	accountNum = newAccountNum;
 	newAccountNum++;
 	saveNewAccountNum();
 }
 
+// Used to load an existing bank account
 BankAccount::BankAccount(string accountType, double balance, int accountNum) :accountType(accountType),
 	balance(balance), accountNum(accountNum) {}
 
@@ -44,6 +47,9 @@ void BankAccount::withdraw(double amount) {
 	else {
 		// CREATE TRANSACTION AND SAVE TO FILE !!!!
 		balance -= amount;
+		Transaction transaction("Withdrawal", amount);
+		transactions.push_back(transaction);
+		transaction.saveToFile(accountNum);
 		// UPDATE ACCOUNT INFO IMMEDIATELY ???
 	}
 }
@@ -51,13 +57,18 @@ void BankAccount::withdraw(double amount) {
 void BankAccount::deposit(double amount) {
 	// CREATE TRANSACTION AND SAVE TO FILE !!!!
 	balance += amount;
+	Transaction transaction("Deposit", amount);
+	transactions.push_back(transaction);
+	transaction.saveToFile(accountNum);
+
 	// UPDATE ACCOUNT INFO IMMEDIATELY ???
 }
 
 void BankAccount::printAccountSummary() const {
-	cout << "Account Num: " << accountNum << endl;
+	/*cout << "Account Num: " << accountNum << endl;
 	cout << "Account Type: " << accountType << endl;
-	cout << "Balance: " << balance << endl;
+	cout << "Balance: " << balance << endl;*/
+	cout << setw(20) << left << accountNum << setw(20) << accountType << setw(20) << "$" + to_string(balance) << endl;
 	// PRINT ALL TRANSACTIONS
 }
 

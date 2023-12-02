@@ -1,5 +1,6 @@
 #include<iostream>
 #include<fstream>
+#include<iomanip>
 #include "user.h"
 
 int User::newUserNum = 0;
@@ -30,13 +31,40 @@ void User::saveNewUserNum() {
 	}
 }
 
-User::User(string name, string password):name(name), password(password) {
+void User::initializeAccounts() {
+	ifstream inputFile("bank-accounts.txt");
+
+	if (inputFile.is_open()) {
+		int fileUserNum, accountNum;
+		double balance;
+		string accountType;
+
+		while (inputFile >> fileUserNum >> accountNum >> accountType >> balance) {
+			if (userNum == fileUserNum) {
+				// Make a BankAccount object and put it in the accounts vector
+				accounts.emplace_back(accountType, balance, accountNum);
+			}
+		}
+	}
+	else {
+		cout << "Unable to open file for reading";
+	}
+}
+
+// Used to show that user login failed
+User::User():loggedIn(false), userNum(-1) {}
+
+// Used to create new user account
+User::User(string name, string password):name(name), password(password), loggedIn(false) {
 	userNum = newUserNum;
 	newUserNum++;
 	saveNewUserNum();
 }
 
-User::User(string name, string password, int userNum):name(name), password(password), userNum(userNum) {}
+// Used when user logs in successfully
+User::User(string name, string password, int userNum):name(name), password(password), userNum(userNum), loggedIn(true) {
+	initializeAccounts();
+}
 
 User::~User() {}
 
@@ -52,6 +80,10 @@ int User::getUserNum() const {
 	return userNum;
 }
 
+bool User::isLoggedIn() const {
+	return loggedIn;
+}
+
 void User::saveToFile() const {
 	// Open file in append mode
 	ofstream outputFile("users.txt", ios::app);
@@ -65,9 +97,14 @@ void User::saveToFile() const {
 	}
 }
 
-bool User::login() { return true; }
-
 void User::createAccount(BankAccount* account) {
 	accounts.push_back(*account);
 	account->saveToFile(userNum);
+}
+
+void User::printAccounts() const {
+	cout << setw(20) << left << "Account Number" << setw(20) << "Account Type" << setw(20) << "Balance" << endl;
+	for (const auto& account : accounts) {
+		account.printAccountSummary();
+	}
 }

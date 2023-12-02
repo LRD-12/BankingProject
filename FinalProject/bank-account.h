@@ -15,7 +15,7 @@ private:
 
 	static int newAccountNum;
 	static void saveNewAccountNum();
-	void loadTransactions();
+	void initializeTransactions();
 public:
 	BankAccount(string accountType);
 	BankAccount(string accountType, double balance, int accountNum);

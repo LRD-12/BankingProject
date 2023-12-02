@@ -12,19 +12,23 @@ private:
 	string password;
 	int userNum;
 	vector<BankAccount> accounts;
+	bool loggedIn;
 	static int newUserNum;
 
+	void initializeAccounts();
 	static void saveNewUserNum();
 public:
+	User();
 	User(string name, string password);
 	User(string name, string password, int userNum);
 	~User();
 	string getName() const;
 	string getPassword() const;
 	int getUserNum() const;
+	bool isLoggedIn() const;
 	void saveToFile() const;
-	bool login();
 	void createAccount(BankAccount* account);
+	void printAccounts() const;
 
 	static void initializeNewUserNum();
 };
