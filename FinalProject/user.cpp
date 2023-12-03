@@ -102,9 +102,18 @@ void User::createAccount(BankAccount* account) {
 	account->saveToFile(userNum);
 }
 
+BankAccount* User::getAccount(int accountNum) {
+	for (auto& account : accounts) {
+		if (accountNum == account.getAccountNum()) {
+			return &account;
+		}
+	}
+	return nullptr;
+}
+
 void User::printAccounts() const {
 	cout << setw(20) << left << "Account Number" << setw(20) << "Account Type" << setw(20) << "Balance" << endl;
 	for (const auto& account : accounts) {
-		account.printAccountSummary();
+		account.printAccountSummary(false);
 	}
 }

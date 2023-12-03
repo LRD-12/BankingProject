@@ -4,3 +4,5 @@
 10000 10003 Savings 0
 10000 10004 Savings 0
 10000 10005 Checking 0
+10000 10006 Checking 0
+10000 10007 Savings 0

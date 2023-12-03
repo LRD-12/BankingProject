@@ -29,6 +29,26 @@ void BankAccount::saveNewAccountNum() {
 	}
 }
 
+void BankAccount::initializeTransactions() {
+	ifstream inputFile("transactions.txt");
+
+	if (inputFile.is_open()) {
+		int fileAccountNum;
+		double amount;
+		string type;
+
+		while (inputFile >> fileAccountNum >> type >> amount) {
+			if (fileAccountNum == accountNum) {
+				// Make a Transaction object and put it in the transactions vector
+				transactions.emplace_back(type, amount);
+			}
+		}
+	}
+	else {
+		cout << "Unable to open file for reading";
+	}
+}
+
 // Used to create a new bank account
 BankAccount::BankAccount(string accountType):accountType(accountType), balance(0) {
 	accountNum = newAccountNum;
@@ -38,15 +58,32 @@ BankAccount::BankAccount(string accountType):accountType(accountType), balance(0
 
 // Used to load an existing bank account
 BankAccount::BankAccount(string accountType, double balance, int accountNum) :accountType(accountType),
-	balance(balance), accountNum(accountNum) {}
+	balance(balance), accountNum(accountNum) {
+	initializeTransactions();
+}
 
+BankAccount::~BankAccount() {}
+
+int BankAccount::getAccountNum() const {
+	return accountNum;
+}
+
+string BankAccount::getAccountType() const {
+	return accountType;
+}
+
+double BankAccount::getBalance() const {
+	return balance;
+}
+
+// Amount passed to withdraw will be a negative number
 void BankAccount::withdraw(double amount) {
-	if (amount > balance) {
+	if (balance + amount < 0) {
 		cout << "Insufficient funds!";
 	}
 	else {
-		// CREATE TRANSACTION AND SAVE TO FILE !!!!
-		balance -= amount;
+		// create transaction and save to file
+		balance += amount;
 		Transaction transaction("Withdrawal", amount);
 		transactions.push_back(transaction);
 		transaction.saveToFile(accountNum);
@@ -55,7 +92,7 @@ void BankAccount::withdraw(double amount) {
 }
 
 void BankAccount::deposit(double amount) {
-	// CREATE TRANSACTION AND SAVE TO FILE !!!!
+	// create transaction and save to file
 	balance += amount;
 	Transaction transaction("Deposit", amount);
 	transactions.push_back(transaction);
@@ -64,12 +101,17 @@ void BankAccount::deposit(double amount) {
 	// UPDATE ACCOUNT INFO IMMEDIATELY ???
 }
 
-void BankAccount::printAccountSummary() const {
+void BankAccount::printAccountSummary(bool outputTransactions) const {
 	/*cout << "Account Num: " << accountNum << endl;
 	cout << "Account Type: " << accountType << endl;
 	cout << "Balance: " << balance << endl;*/
 	cout << setw(20) << left << accountNum << setw(20) << accountType << setw(20) << "$" + to_string(balance) << endl;
-	// PRINT ALL TRANSACTIONS
+	if (outputTransactions) {
+		for (const auto& transaction : transactions) {
+			transaction.printTransaction();
+		}
+	}
+	
 }
 
 // Saves to 'bank-accounts.txt', userNum provided as argument since we can't access it directly from BankAccount object

@@ -28,6 +28,7 @@ public:
 	bool isLoggedIn() const;
 	void saveToFile() const;
 	void createAccount(BankAccount* account);
+	BankAccount* getAccount(int accountNum);
 	void printAccounts() const;
 
 	static void initializeNewUserNum();

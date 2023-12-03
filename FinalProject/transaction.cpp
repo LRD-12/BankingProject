@@ -1,5 +1,6 @@
 #include<iostream>
 #include<fstream>
+#include<iomanip>
 #include "transaction.h"
 using namespace std;
 
@@ -13,6 +14,10 @@ string Transaction::getType() const {
 
 double Transaction::getAmount() const {
 	return amount;
+}
+
+void Transaction::printTransaction() const {
+	cout << setw(15) << left << type << setw(10) << "$" + to_string(amount) << endl;
 }
 
 // Saves to 'transactions.txt', accountNum provided as argument since we can't access it directly from Transaction object

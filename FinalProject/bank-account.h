@@ -19,9 +19,13 @@ private:
 public:
 	BankAccount(string accountType);
 	BankAccount(string accountType, double balance, int accountNum);
+	~BankAccount();
+	int getAccountNum() const;
+	string getAccountType() const;
+	double getBalance() const;
 	void withdraw(double amount);
 	void deposit(double amount);
-	void printAccountSummary() const;
+	void printAccountSummary(bool outputTransactions) const;
 	void saveToFile(int userNum) const;
 	static void initializeNewAccountNum();
 };
