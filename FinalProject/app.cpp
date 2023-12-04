@@ -51,43 +51,49 @@ int main() {
 					}
 					// Manage accounts
 					case 2: {
-						user.printAccounts();
-						int accountNum;
-						BankAccount* account = nullptr;
-						do {
-							cout << "Enter account number to manage: ";
-							cin >> accountNum;
-							account = user.getAccount(accountNum);
-						} while (account == nullptr);
+						if (user.hasAccounts()) {
 
-						int userChoice;
-						do {
-							cout << "1. Make a transaction (deposit/withdrawal)\n"
-								<< "2. Account Summary\n"
-								<< "3. Exit Account\n"
-								<< "Enter your choice: ";
-							cin >> userChoice;
+							user.printAccounts();
+							int accountNum;
+							BankAccount* account = nullptr;
+							do {
+								cout << "Enter account number to manage: ";
+								cin >> accountNum;
+								account = user.getAccount(accountNum);
+							} while (account == nullptr);
 
-							switch (userChoice) {
-							// Make a transaction
-							case 1: {
-								int amount;
-								cout << "Enter transaction amount: ";
-								cin >> amount;
-								if (amount > 0) {
-									account->deposit(amount);
+							int userChoice;
+							do {
+								cout << "1. Make a transaction (deposit/withdrawal)\n"
+									<< "2. Account Summary\n"
+									<< "3. Exit Account\n"
+									<< "Enter your choice: ";
+								cin >> userChoice;
+
+								switch (userChoice) {
+									// Make a transaction
+								case 1: {
+									int amount;
+									cout << "Enter transaction amount: ";
+									cin >> amount;
+									if (amount > 0) {
+										account->deposit(amount);
+									}
+									else if (amount < 0) {
+										account->withdraw(amount);
+									}
+									break;
 								}
-								else if (amount < 0) {
-									account->withdraw(amount);
+									  // Print account summary
+								case 2: {
+									account->printAccountSummary(true);
 								}
-								break;
-							}
-							// Print account summary
-							case 2: {
-								account->printAccountSummary(true);
-							}
-							}
-						} while (userChoice != 3);
+								}
+							} while (userChoice != 3);
+						}
+						else {
+							cout << "No accounts exist!" << endl;
+						}
 					}
 					}
 				} while (userChoice != 3);
@@ -99,7 +105,22 @@ int main() {
 			break;
 		}
 		case 2: {
+			cout << "Creating account..." << endl;
+			string name, password;
+			cout << "Enter your name: ";
+			cin >> name;
+			cout << "Enter your password: ";
+			cin >> password;
 
+			User userLogin = Authenticator::loginUser(name, password);
+			if (!userLogin.isLoggedIn()) {
+				User user(name, password);
+				user.saveToFile();
+				cout << "User created!" << endl;
+			}
+			else {
+				cout << "This name/password combination already exists!" << endl;
+			}
 		}
 		}
 		

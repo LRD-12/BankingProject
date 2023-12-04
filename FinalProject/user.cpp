@@ -97,6 +97,10 @@ void User::saveToFile() const {
 	}
 }
 
+bool User::hasAccounts() const {
+	return !accounts.empty();
+}
+
 void User::createAccount(BankAccount* account) {
 	accounts.push_back(*account);
 	account->saveToFile(userNum);

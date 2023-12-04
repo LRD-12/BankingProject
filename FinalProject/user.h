@@ -27,6 +27,7 @@ public:
 	int getUserNum() const;
 	bool isLoggedIn() const;
 	void saveToFile() const;
+	bool hasAccounts() const;
 	void createAccount(BankAccount* account);
 	BankAccount* getAccount(int accountNum);
 	void printAccounts() const;
