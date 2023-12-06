@@ -25,9 +25,21 @@ User Authenticator::loginUser(string name, string password) {
 }
 
 Manager Authenticator::loginManager(string name, string password) {
-	// Check if the credentials match the manager's credentials
-	if (name == "manager" && password == "admin") {
-		return Manager(true);
+	ifstream inputFile("managers.txt");
+
+	if (inputFile.is_open()) {
+		string n, p;
+		while (inputFile >> n >> p) {
+			if (name == n && password == p) {
+				// Manager logged in successfully
+				return Manager(true);
+			}
+		}
+		inputFile.close();
 	}
+	else {
+		cout << "Unable to open file for reading" << endl;
+	}
+	// Manager login failed
 	return Manager(false);
 }

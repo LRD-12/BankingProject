@@ -148,6 +148,7 @@
   <ItemGroup>
     <Text Include="bank-account-num.txt" />
     <Text Include="bank-accounts.txt" />
+    <Text Include="managers.txt" />
     <Text Include="transactions.txt" />
     <Text Include="user-num.txt" />
     <Text Include="users.txt" />

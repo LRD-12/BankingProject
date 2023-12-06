@@ -69,5 +69,6 @@
     <Text Include="users.txt" />
     <Text Include="bank-accounts.txt" />
     <Text Include="transactions.txt" />
+    <Text Include="managers.txt" />
   </ItemGroup>
 </Project>
