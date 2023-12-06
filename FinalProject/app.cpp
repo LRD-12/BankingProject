@@ -63,7 +63,6 @@ int main() {
 					// Manage accounts
 					case 2: {
 						if (user.hasAccounts()) {
-
 							user.printAccounts();
 							int accountNum;
 							BankAccount* account = nullptr;
@@ -135,8 +134,44 @@ int main() {
 			}
 			break;
 		}
+		// Manager login
 		case 3: {
-			
+			string name, password;
+			cout << "Enter your name: ";
+			cin >> name;
+			cout << "Enter your password: ";
+			cin >> password;
+
+			Manager manager = Authenticator::loginManager(name, password);
+			if (manager.isLoggedIn()) {
+				cout << "Manager login success!" << endl;
+				int managerChoice;
+				do {
+					cout << "1. View all accounts\n"
+						<< "2. Delete account\n"
+						<< "3. Logout\n"
+						<< "Enter your choice: ";
+					cin >> managerChoice;
+
+					switch (managerChoice) {
+					case 1: {
+						manager.viewAllAccounts();
+						break;
+					}
+					case 2: {
+						int accountNum;
+						cout << "Enter account number to delete: ";
+						cin >> accountNum;
+						manager.deleteAccount(accountNum);
+						break;
+					}
+					}
+				} while (managerChoice != 3);
+			}
+			else {
+				cout << "Manager login failed!" << endl;
+			}
+			break;
 		}
 		}
 		

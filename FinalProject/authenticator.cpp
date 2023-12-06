@@ -23,3 +23,11 @@ User Authenticator::loginUser(string name, string password) {
 	// User login failed
 	return User();
 }
+
+Manager Authenticator::loginManager(string name, string password) {
+	// Check if the credentials match the manager's credentials
+	if (name == "manager" && password == "admin") {
+		return Manager(true);
+	}
+	return Manager(false);
+}
