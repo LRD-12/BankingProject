@@ -76,35 +76,24 @@ double BankAccount::getBalance() const {
 	return balance;
 }
 
-// Amount passed to withdraw will be a negative number
-void BankAccount::withdraw(double amount) {
-	if (balance + amount < 0) {
-		cout << "Insufficient funds!";
-	}
-	else {
-		// create transaction and save to file
-		balance += amount;
-		Transaction transaction("Withdrawal", amount);
-		transactions.push_back(transaction);
-		transaction.saveToFile(accountNum);
-		// UPDATE ACCOUNT INFO IMMEDIATELY ???
-	}
+void BankAccount::setBalance(double amount) {
+	balance = amount;
 }
+
+void BankAccount::saveTransactionToFile(string type, double amount) {
+	Transaction transaction(type, amount);
+	transactions.push_back(transaction);
+	transaction.saveToFile(accountNum);
+}
+
 
 void BankAccount::deposit(double amount) {
 	// create transaction and save to file
 	balance += amount;
-	Transaction transaction("Deposit", amount);
-	transactions.push_back(transaction);
-	transaction.saveToFile(accountNum);
-
-	// UPDATE ACCOUNT INFO IMMEDIATELY ???
+	saveTransactionToFile("Deposit", amount);
 }
 
 void BankAccount::printAccountSummary(bool outputTransactions) const {
-	/*cout << "Account Num: " << accountNum << endl;
-	cout << "Account Type: " << accountType << endl;
-	cout << "Balance: " << balance << endl;*/
 	cout << setw(20) << left << accountNum << setw(20) << accountType << setw(20) << "$" + to_string(balance) << endl;
 	if (outputTransactions) {
 		for (const auto& transaction : transactions) {

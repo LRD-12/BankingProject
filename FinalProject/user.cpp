@@ -4,6 +4,9 @@
 #include<vector>
 #include<sstream>
 #include "user.h"
+#include "bank-account.h"
+#include "savings-account.h"
+#include "checking-account.h"
 
 int User::newUserNum = 0;
 
@@ -44,12 +47,13 @@ void User::initializeAccounts() {
 		while (inputFile >> fileUserNum >> accountNum >> accountType >> balance) {
 			if (userNum == fileUserNum) {
 				// Make a BankAccount object and put it in the accounts vector
-				//BankAccount account(accountType, balance, accountNum);
-				//BankAccount* accountPtr = &account;
-				//cout << accountPtr->getAccountNum() << accountPtr->getAccountType() << accountPtr->getBalance() << endl;
-				//BankAccount* accountPtr = new BankAccount(accountType, balance, accountNum);
-				//cout << accountPtr << endl;
-				BankAccount* account = new BankAccount(accountType, balance, accountNum);
+				BankAccount* account = nullptr;
+				if (accountType == "Savings") {
+					account = new SavingsAccount(balance, accountNum);
+				}
+				else {
+					account = new CheckingAccount(balance, accountNum);
+				}
 				accounts.push_back(account);
 			}
 		}
@@ -76,7 +80,7 @@ User::User(string name, string password, int userNum):name(name), password(passw
 
 User::~User() {
 	// Delete dynamically allocated BankAccount pointers 
-	for (auto* account : accounts) {
+	for (BankAccount* account : accounts) {
 		delete account;
 	}
 }
@@ -129,7 +133,6 @@ BankAccount* User::getAccount(int accountNum) const {
 }
 
 void User::saveAccountsToFile() const {
-	cout << "Saving accounts" << endl;
 	ifstream inputFile("bank-accounts.txt");
 	vector<string> tempAccounts;
 

@@ -3,6 +3,8 @@
 #include "user.h"
 #include "authenticator.h"
 #include "bank-account.h"
+#include "checking-account.h"
+#include "savings-account.h"
 #include "transaction.h"
 using namespace std;
 
@@ -42,10 +44,19 @@ int main() {
 					switch (userChoice) {
 					// Create account
 					case 1: {
-						string accountType;
-						cout << "Enter type of account: ";
-						cin >> accountType;
-						BankAccount* account = new BankAccount(accountType);
+						int accountChoice;
+						do {
+							cout << "Enter type of account (1 = Savings, 2 = Checking): ";
+							cin >> accountChoice;
+						} while (accountChoice != 1 && accountChoice != 2);
+
+						BankAccount* account = nullptr;
+						if (accountChoice == 1) {
+							account = new SavingsAccount();
+						}
+						else {
+							account = new CheckingAccount();
+						}
 						user.createAccount(account);
 						break;
 					}
@@ -73,7 +84,7 @@ int main() {
 								switch (userChoice) {
 								// Make a transaction
 								case 1: {
-									int amount;
+									double amount;
 									cout << "Enter transaction amount: ";
 									cin >> amount;
 									if (amount > 0) {
@@ -122,6 +133,10 @@ int main() {
 			else {
 				cout << "This name/password combination already exists!" << endl;
 			}
+			break;
+		}
+		case 3: {
+			
 		}
 		}
 		

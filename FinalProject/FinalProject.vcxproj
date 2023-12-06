@@ -129,6 +129,8 @@
   <ItemGroup>
     <ClInclude Include="authenticator.h" />
     <ClInclude Include="bank-account.h" />
+    <ClInclude Include="checking-account.h" />
+    <ClInclude Include="savings-account.h" />
     <ClInclude Include="transaction.h" />
     <ClInclude Include="user.h" />
   </ItemGroup>
@@ -136,6 +138,8 @@
     <ClCompile Include="app.cpp" />
     <ClCompile Include="authenticator.cpp" />
     <ClCompile Include="bank-account.cpp" />
+    <ClCompile Include="checking-account.cpp" />
+    <ClCompile Include="savings-account.cpp" />
     <ClCompile Include="transaction.cpp" />
     <ClCompile Include="user.cpp" />
   </ItemGroup>

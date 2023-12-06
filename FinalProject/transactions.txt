@@ -1,3 +1,11 @@
 10010 Deposit 500
 10008 Deposit 35
 10012 Deposit 400
+10000 Deposit 30
+10002 Deposit 1500
+10006 Deposit 2300
+10006 Withdrawal -1500
+10013 Deposit 650
+10013 Deposit 550.5
+10012 Withdrawal -45
+10014 Deposit 2500
