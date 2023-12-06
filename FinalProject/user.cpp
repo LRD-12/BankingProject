@@ -1,6 +1,8 @@
 #include<iostream>
 #include<fstream>
 #include<iomanip>
+#include<vector>
+#include<sstream>
 #include "user.h"
 
 int User::newUserNum = 0;
@@ -42,7 +44,13 @@ void User::initializeAccounts() {
 		while (inputFile >> fileUserNum >> accountNum >> accountType >> balance) {
 			if (userNum == fileUserNum) {
 				// Make a BankAccount object and put it in the accounts vector
-				accounts.emplace_back(accountType, balance, accountNum);
+				//BankAccount account(accountType, balance, accountNum);
+				//BankAccount* accountPtr = &account;
+				//cout << accountPtr->getAccountNum() << accountPtr->getAccountType() << accountPtr->getBalance() << endl;
+				//BankAccount* accountPtr = new BankAccount(accountType, balance, accountNum);
+				//cout << accountPtr << endl;
+				BankAccount* account = new BankAccount(accountType, balance, accountNum);
+				accounts.push_back(account);
 			}
 		}
 	}
@@ -66,7 +74,12 @@ User::User(string name, string password, int userNum):name(name), password(passw
 	initializeAccounts();
 }
 
-User::~User() {}
+User::~User() {
+	// Delete dynamically allocated BankAccount pointers 
+	for (auto* account : accounts) {
+		delete account;
+	}
+}
 
 string User::getName() const {
 	return name;
@@ -102,22 +115,63 @@ bool User::hasAccounts() const {
 }
 
 void User::createAccount(BankAccount* account) {
-	accounts.push_back(*account);
+	accounts.push_back(account);
 	account->saveToFile(userNum);
 }
 
-BankAccount* User::getAccount(int accountNum) {
-	for (auto& account : accounts) {
-		if (accountNum == account.getAccountNum()) {
-			return &account;
+BankAccount* User::getAccount(int accountNum) const {
+	for (auto* account : accounts) {
+		if (accountNum == account->getAccountNum()) {
+			return account;
 		}
 	}
 	return nullptr;
 }
 
+void User::saveAccountsToFile() const {
+	cout << "Saving accounts" << endl;
+	ifstream inputFile("bank-accounts.txt");
+	vector<string> tempAccounts;
+
+	if (inputFile.is_open()) {
+		int fileUserNum, accountNum;
+		string accountType;
+		double balance;
+		while (inputFile >> fileUserNum >> accountNum >> accountType >> balance) {
+			ostringstream oss;
+			if (fileUserNum == userNum) {
+				BankAccount* account = getAccount(accountNum);
+				oss << userNum << " " << account->getAccountNum() << " " << account->getAccountType() << " " << account->getBalance();
+				tempAccounts.push_back(oss.str());
+
+			}
+			else {
+				oss << fileUserNum << " " << accountNum << " " << accountType << " " << balance;
+				tempAccounts.push_back(oss.str());
+			}
+		}
+		inputFile.close();
+	}
+	else {
+		cout << "Unable to open file for reading" << endl;
+	}
+	
+	ofstream outputFile("bank-accounts.txt");
+	if (outputFile.is_open()) {
+		for (const auto& accountStr : tempAccounts) {
+			outputFile << accountStr << endl;
+		}
+		outputFile.close();
+	}
+	else {
+		cout << "Unable to open file for writing" << endl;
+	}
+}
+
 void User::printAccounts() const {
 	cout << setw(20) << left << "Account Number" << setw(20) << "Account Type" << setw(20) << "Balance" << endl;
-	for (const auto& account : accounts) {
-		account.printAccountSummary(false);
+	for (const auto* account : accounts) {
+		account->printAccountSummary(false);
 	}
+
 }

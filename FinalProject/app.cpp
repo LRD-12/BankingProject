@@ -45,8 +45,8 @@ int main() {
 						string accountType;
 						cout << "Enter type of account: ";
 						cin >> accountType;
-						BankAccount account(accountType);
-						user.createAccount(&account);
+						BankAccount* account = new BankAccount(accountType);
+						user.createAccount(account);
 						break;
 					}
 					// Manage accounts
@@ -71,7 +71,7 @@ int main() {
 								cin >> userChoice;
 
 								switch (userChoice) {
-									// Make a transaction
+								// Make a transaction
 								case 1: {
 									int amount;
 									cout << "Enter transaction amount: ";
@@ -84,7 +84,7 @@ int main() {
 									}
 									break;
 								}
-									  // Print account summary
+								// Print account summary
 								case 2: {
 									account->printAccountSummary(true);
 								}
@@ -98,6 +98,7 @@ int main() {
 					}
 				} while (userChoice != 3);
 				// Save user account changes before 'logging them out'
+				user.saveAccountsToFile();
 			}
 			else {
 				cout << "Login failed!" << endl;

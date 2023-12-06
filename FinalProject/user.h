@@ -11,7 +11,7 @@ private:
 	string name;
 	string password;
 	int userNum;
-	vector<BankAccount> accounts;
+	vector<BankAccount*> accounts;
 	bool loggedIn;
 	static int newUserNum;
 
@@ -27,9 +27,10 @@ public:
 	int getUserNum() const;
 	bool isLoggedIn() const;
 	void saveToFile() const;
+	void saveAccountsToFile() const;
 	bool hasAccounts() const;
 	void createAccount(BankAccount* account);
-	BankAccount* getAccount(int accountNum);
+	BankAccount* getAccount(int accountNum) const;
 	void printAccounts() const;
 
 	static void initializeNewUserNum();
