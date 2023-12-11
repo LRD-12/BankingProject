@@ -17,7 +17,7 @@ double Transaction::getAmount() const {
 }
 
 void Transaction::printTransaction() const {
-	cout << setw(15) << left << type << setw(10) << "$" + to_string(amount) << endl;
+	cout << setw(15) << left << type << setw(10) << amount << endl;
 }
 
 // Saves to 'transactions.txt', accountNum provided as argument since we can't access it directly from Transaction object

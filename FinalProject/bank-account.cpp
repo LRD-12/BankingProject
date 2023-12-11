@@ -94,8 +94,10 @@ void BankAccount::deposit(double amount) {
 }
 
 void BankAccount::printAccountSummary(bool outputTransactions) const {
-	cout << setw(20) << left << accountNum << setw(20) << accountType << setw(20) << "$" + to_string(balance) << endl;
+	cout << fixed << setprecision(2);
+	cout << setw(20) << left << accountNum << setw(20) << accountType << setw(20) << balance << endl;
 	if (outputTransactions) {
+		cout << setw(15) << left << "Transactions:" << endl;
 		for (const auto& transaction : transactions) {
 			transaction.printTransaction();
 		}

@@ -1,5 +1,7 @@
 #include<iostream>
 #include<string>
+#include<sstream>
+#include<iomanip>
 #include "user.h"
 #include "authenticator.h"
 #include "bank-account.h"
@@ -7,6 +9,23 @@
 #include "savings-account.h"
 #include "transaction.h"
 using namespace std;
+
+
+// Utility function for safely getting user input
+int getUserInput() {
+	int choice;
+	cin >> choice;
+	while (cin.fail()) {
+		cout << "Invalid input! Enter a number: ";
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cin >> choice;
+	}
+	cin.clear();
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	return choice;
+}
+
 
 int main() {
 	User::initializeNewUserNum();
@@ -19,7 +38,8 @@ int main() {
 			<< "3. Manager Login\n"
 			<< "4. Exit\n"
 			<< "Enter your choice: ";
-		cin >> choice;
+
+		choice = getUserInput();
 
 		switch (choice) {
 		// User login
@@ -39,7 +59,7 @@ int main() {
 						<< "2. Manage accounts\n"
 						<< "3. Logout\n"
 						<< "Enter your choice: ";
-					cin >> userChoice;
+					userChoice = getUserInput();
 
 					switch (userChoice) {
 					// Create account
@@ -47,7 +67,7 @@ int main() {
 						int accountChoice;
 						do {
 							cout << "Enter type of account (1 = Savings, 2 = Checking): ";
-							cin >> accountChoice;
+							accountChoice = getUserInput();
 						} while (accountChoice != 1 && accountChoice != 2);
 
 						BankAccount* account = nullptr;
@@ -58,6 +78,7 @@ int main() {
 							account = new CheckingAccount();
 						}
 						user.createAccount(account);
+						cout << "Account created!" << endl;
 						break;
 					}
 					// Manage accounts
@@ -68,7 +89,7 @@ int main() {
 							BankAccount* account = nullptr;
 							do {
 								cout << "Enter account number to manage: ";
-								cin >> accountNum;
+								accountNum = getUserInput();
 								account = user.getAccount(accountNum);
 							} while (account == nullptr);
 
@@ -78,14 +99,14 @@ int main() {
 									<< "2. Account Summary\n"
 									<< "3. Exit Account\n"
 									<< "Enter your choice: ";
-								cin >> userChoice;
+								userChoice = getUserInput();
 
 								switch (userChoice) {
 								// Make a transaction
 								case 1: {
 									double amount;
 									cout << "Enter transaction amount: ";
-									cin >> amount;
+									amount = getUserInput();
 									if (amount > 0) {
 										account->deposit(amount);
 									}
@@ -96,6 +117,7 @@ int main() {
 								}
 								// Print account summary
 								case 2: {
+									cout << setw(20) << left << "Account Number" << setw(20) << "Account Type" << setw(20) << "Balance ($)" << endl;
 									account->printAccountSummary(true);
 								}
 								}
@@ -151,7 +173,7 @@ int main() {
 						<< "2. Delete account\n"
 						<< "3. Logout\n"
 						<< "Enter your choice: ";
-					cin >> managerChoice;
+					managerChoice = getUserInput();
 
 					switch (managerChoice) {
 					case 1: {
@@ -161,7 +183,7 @@ int main() {
 					case 2: {
 						int accountNum;
 						cout << "Enter account number to delete: ";
-						cin >> accountNum;
+						accountNum = getUserInput();
 						manager.deleteAccount(accountNum);
 						break;
 					}

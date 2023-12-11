@@ -172,7 +172,7 @@ void User::saveAccountsToFile() const {
 }
 
 void User::printAccounts() const {
-	cout << setw(20) << left << "Account Number" << setw(20) << "Account Type" << setw(20) << "Balance" << endl;
+	cout << setw(20) << left << "Account Number" << setw(20) << "Account Type" << setw(20) << "Balance ($)" << endl;
 	for (const auto* account : accounts) {
 		account->printAccountSummary(false);
 	}

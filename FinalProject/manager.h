@@ -8,10 +8,11 @@ using namespace std;
 class Manager {
 private:
     bool loggedIn;
+    void deleteTransactions(int accountNum) const;
 public:
     Manager(bool loggedIn);
     bool isLoggedIn() const;
     void viewAllAccounts() const;
-    void deleteAccount(int accountNumber);
+    void deleteAccount(int accountNum) const;
 };
 #endif
