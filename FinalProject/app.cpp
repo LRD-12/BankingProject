@@ -11,7 +11,7 @@
 using namespace std;
 
 
-// Utility function for safely getting user input
+// Utility function for safely getting user integer input
 int getUserInput() {
 	int choice;
 	cin >> choice;
@@ -24,6 +24,19 @@ int getUserInput() {
 	cin.clear();
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	return choice;
+}
+
+// Utility function for safely getting user string input
+string getUserStringInput() {
+	string userInput;
+	getline(cin, userInput);
+
+	while (userInput.find(" ") != string::npos || userInput.find("\t") != string::npos) {
+		cout << "No spaces allowed! Try again: ";
+		getline(cin, userInput);
+	}
+
+	return userInput;
 }
 
 
@@ -137,13 +150,14 @@ int main() {
 			}
 			break;
 		}
+		// Create account
 		case 2: {
 			cout << "Creating account..." << endl;
 			string name, password;
 			cout << "Enter your name: ";
-			cin >> name;
+			name = getUserStringInput();
 			cout << "Enter your password: ";
-			cin >> password;
+			password = getUserStringInput();
 
 			User userLogin = Authenticator::loginUser(name, password);
 			if (!userLogin.isLoggedIn()) {
